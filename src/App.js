@@ -3,28 +3,36 @@ import { TodoSearch } from './TodoSearch';
 import { TodoList } from './TodoList';
 import { TodoItem } from './TodoItem';
 import { CreateTodoBtn } from './CreateTodoBtn';
-import React from 'react';
+import { useState } from 'react';
 
 const defaultTodos = [
   { text : 'Cortar cebolla', completed: false},
   { text : 'Comer pizza', completed: true},
   { text : 'Estudiar React', completed: false},
   { text : 'Saltar lazo', completed: false},
-  { text : 'Hacer ejercicio', completed: false},
+  { text : 'Hacer ejercicio', completed: true},
 ]
 
 function App() {
+  const [todos, setTodos] = useState(defaultTodos)
+  const [tarea, setTarea] = useState('');
+  console.log(`Se busca: ${tarea}`)
+  
   return (
     <>
-      <TodoCounter completed={3} total={5}/>
-      <TodoSearch />
+      <TodoCounter 
+        completed={todos.filter(t => t.completed).length} 
+        total={todos.length}
+      />
+      <TodoSearch tarea={tarea} setTarea={setTarea}/>
 
       <TodoList>
-        {defaultTodos.map( todo => (
+        {todos.map( (todo, index) => (
             <TodoItem 
-            key={todo.text} 
-            text={todo.text} 
-            completed={todo.completed} />
+            key={todo.text}
+            todo={todo}
+            setTodos={setTodos}
+            index={index} />
           ))}
       </TodoList>
       <CreateTodoBtn/>

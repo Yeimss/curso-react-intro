@@ -8,7 +8,7 @@ import { useState } from 'react';
 const defaultTodos = [
   { text : 'Cortar cebolla', completed: false},
   { text : 'Comer pizza', completed: true},
-  { text : 'Estudiar React', completed: false},
+  { text : 'Estudiar React', completed: true},
   { text : 'Saltar lazo', completed: false},
   { text : 'Hacer ejercicio', completed: true},
 ]
@@ -16,7 +16,12 @@ const defaultTodos = [
 function App() {
   const [todos, setTodos] = useState(defaultTodos)
   const [tarea, setTarea] = useState('');
-  console.log(`Se busca: ${tarea}`)
+  const searchedTodo = todos.filter(
+    (t) => {
+    const text = t.text.toLocaleLowerCase();
+    const searchedTest = tarea.toLocaleLowerCase()
+    return text.includes(searchedTest)
+  }); 
   
   return (
     <>
@@ -27,7 +32,7 @@ function App() {
       <TodoSearch tarea={tarea} setTarea={setTarea}/>
 
       <TodoList>
-        {todos.map( (todo, index) => (
+        {searchedTodo.map( (todo, index) => (
             <TodoItem 
             key={todo.text}
             todo={todo}

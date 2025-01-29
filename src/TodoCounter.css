@@ -4,3 +4,9 @@ h1{
     margin: 0;
     padding: 24px;
 }
+.checkAll{
+    color: green;
+}
+.checkAll span{
+    color: greenyellow;
+}

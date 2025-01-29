@@ -7,10 +7,10 @@ import { useState } from 'react';
 
 const defaultTodos = [
   { text : 'Cortar cebolla', completed: false},
-  { text : 'Comer pizza', completed: true},
-  { text : 'Estudiar React', completed: true},
+  { text : 'Comer pizza', completed: false},
+  { text : 'Estudiar React', completed: false},
   { text : 'Saltar lazo', completed: false},
-  { text : 'Hacer ejercicio', completed: true},
+  { text : 'Hacer ejercicio', completed: false},
 ]
 
 function App() {
@@ -22,7 +22,19 @@ function App() {
     const searchedTest = tarea.toLocaleLowerCase()
     return text.includes(searchedTest)
   }); 
-  
+
+  const completeTodo = (text) =>{
+    const newTodos = [...todos]
+    const todoIndex = newTodos.findIndex(t => t.text === text)
+    newTodos[todoIndex].completed = true;
+    setTodos(newTodos)
+  }
+
+  const deleteTodo = (text) => {
+    const newTodos = [...todos]
+    setTodos(newTodos.filter(t => t.text !== text))
+  }
+
   return (
     <>
       <TodoCounter 
@@ -32,12 +44,13 @@ function App() {
       <TodoSearch tarea={tarea} setTarea={setTarea}/>
 
       <TodoList>
-        {searchedTodo.map( (todo, index) => (
+        {searchedTodo.map( (todo) => (
             <TodoItem 
             key={todo.text}
             todo={todo}
-            setTodos={setTodos}
-            index={index} />
+            onCompleted = {() => {completeTodo(todo.text)}}
+            onDeleted = {() => {deleteTodo(todo.text)}}
+            />
           ))}
       </TodoList>
       <CreateTodoBtn/>

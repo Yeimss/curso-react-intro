@@ -1,18 +1,14 @@
 import './TodoItem.css';
-function TodoItem({todo, setTodos, index}){
+function TodoItem({todo, onCompleted, onDeleted}){
   return (
         <li className="TodoItem">
           <span 
           className={`Icon Icon-check ${todo.completed ? "Icon-check--active" : ""}`}
-            /* onClick={() => {
-              setTodos(todo.completed = true)
-            }} */
+          onClick={onCompleted}
           >V</span>
           <p className={`TodoItem-p ${todo.completed ? "TodoItem-p--complete" : "" }`}>{todo.text}</p>
           <span className={`Icon Icon-delete`}
-            /* onClick={() => {
-              setTodos(todo.completed = false)
-            }} */
+          onClick={onDeleted}
           >X</span>
         </li>
   );

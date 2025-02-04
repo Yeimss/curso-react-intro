@@ -5,16 +5,28 @@ import { TodoItem } from './TodoItem';
 import { CreateTodoBtn } from './CreateTodoBtn';
 import { useState } from 'react';
 
-const defaultTodos = [
+/* const defaultTodos = [
   { text : 'Cortar cebolla', completed: false},
   { text : 'Comer pizza', completed: false},
   { text : 'Estudiar React', completed: false},
   { text : 'Saltar lazo', completed: false},
   { text : 'Hacer ejercicio', completed: false},
-]
+] */
+
+//localStorage.setItem('TodoList', defaultTodos)
+//localStorage.removeItem('TodoList')
 
 function App() {
-  const [todos, setTodos] = useState(defaultTodos)
+
+  const localStorageTodos = localStorage.getItem('TodoList');
+  let parsedTodos = [];
+  if (!localStorageTodos){
+    localStorage.setItem('TodoList', JSON.stringify(parsedTodos))
+  }else{
+    parsedTodos = JSON.parse(localStorageTodos)
+  }
+
+  const [todos, setTodos] = useState(parsedTodos)
   const [tarea, setTarea] = useState('');
   const searchedTodo = todos.filter(
     (t) => {
@@ -23,16 +35,21 @@ function App() {
     return text.includes(searchedTest)
   }); 
 
+  const saveTodo = (newTodos) => {
+    localStorage.setItem('TodoList', JSON.stringify(newTodos))
+    setTodos(newTodos)
+  }
+
   const completeTodo = (text) =>{
     const newTodos = [...todos]
     const todoIndex = newTodos.findIndex(t => t.text === text)
     newTodos[todoIndex].completed = !newTodos[todoIndex].completed;
-    setTodos(newTodos)
+    saveTodo(newTodos)
   }
 
   const deleteTodo = (text) => {
     const newTodos = [...todos]
-    setTodos(newTodos.filter(t => t.text !== text))
+    saveTodo(newTodos.filter(t => t.text !== text))
   }
 
   return (

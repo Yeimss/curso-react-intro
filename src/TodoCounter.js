@@ -1,7 +1,7 @@
 import './TodoCounter.css';
 
 function TodoCounter({total, completed}){
-  if(total === completed){
+  if(total === completed && total !== 0){
     return (
       <h1 className='checkAll'>
         ¡Sos el más grande de todos! <span>Lo completaste todooo</span>
